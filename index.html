@@ -1,147 +1,220 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
+<html lang="ar" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المسيرات</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>بوابة تراوف</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
         body {
-            background-color: #f0f2f5;
+            font-family: 'Tajawal', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background-color: #f5f5f5;
+            direction: rtl;
         }
         
-        .card {
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        .nav-gradient {
+            background: linear-gradient(90deg, #01a6a4 0%, #00b4a2 40%, #02a1d9 100%);
         }
         
-        .card-body {
-            padding: 20px;
+        .card-shadow {
+            box-shadow: 0 10px 18px rgba(0, 0, 0, 0.06);
         }
         
-        .add-new-header-cp {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .title-sec-cp {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-            margin: 0;
-        }
-        
-        .actions-cp-box .btn {
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        
-        .btn-success {
-            background-color: #28a745;
-            border-color: #28a745;
-        }
-        
-        .cp-bg-form {
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-group label {
-            font-weight: bold;
-            margin-bottom: 8px;
+        .menu-item:hover .menu-dropdown {
             display: block;
         }
         
-        .form-control,
-        .form-select {
-            border-radius: 5px;
-            border: 1px solid #ced4da;
+        .menu-dropdown {
+            display: none;
         }
         
-        .alert-warning {
-            color: #856404;
-            background-color: #fff3cd;
-            border-color: #ffeeba;
-            border-radius: 5px;
-            padding: 20px;
-            text-align: center;
-            margin: 10px 0;
-            line-height: 40px;
-            font-weight: bold;
+        .menu-dropdown li {
+            border-bottom: 1px solid #eef2f7;
         }
         
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #6c757d;
+        .menu-dropdown li:last-child {
+            border-bottom: none;
         }
     </style>
 </head>
 
-<body>
+<body class="bg-[#f8f9fb] min-h-screen">
+    <header class="nav-gradient text-white shadow-lg">
+        <div class="max-w-[1400px] mx-auto flex items-center justify-between px-4 lg:px-8 py-3">
+            <nav class="flex items-center gap-6 text-sm">
+                <a class="font-semibold hover:text-gray-100 transition" href="#">الطلبات</a>
 
-    <div class="container-fluid py-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="add-new-header-cp">
-                    <h3 class="title-sec-cp">المسيرات</h3>
-                    <div class="actions-cp-box">
-                        <button class="btn btn-success">مسير جديد <i class="fa fa-plus"></i></button>
-                    </div>
+                <div class="relative menu-item">
+                    <button class="flex items-center gap-1 hover:text-gray-100 transition">
+						<span>الدعم المؤسسي</span>
+						<span class="text-lg">▾</span>
+					</button>
+                    <ul class="menu-dropdown absolute top-full mt-2 min-w-[200px] rounded-lg bg-white text-gray-700 shadow-lg overflow-hidden z-20">
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">الأسر</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">البرامج</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">مركز المعرفة</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">تنظيم زيارات المشاريع</a></li>
+                    </ul>
                 </div>
-                <div class="row cp-bg-form">
-                    <div class="col-md-12">
-                        <form>
-                            <div class="row align-items-end">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>حالة الطلب</label>
-                                        <select class="form-control">
-                                        <option> مسيرات ام اليتم</option>
-                                        <option>مسير الافراد </option>
-                                        <option>مسير احسان </option>
-                                        <option>مسير  الاسر</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>نوع المسير</label>
-                                        <select class="form-control">
-                                        <option>الكل</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>النوع</label>
-                                        <select class="form-control">
-                                        <option>الكل</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>بحث</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+
+                <div class="relative menu-item">
+                    <button class="flex items-center gap-1 hover:text-gray-100 transition">
+						<span>التقارير</span>
+						<span class="text-lg">▾</span>
+					</button>
+                    <ul class="menu-dropdown absolute top-full mt-2 min-w-[220px] rounded-lg bg-white text-gray-700 shadow-lg overflow-hidden z-20">
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">التقارير الإدارية</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">تقارير المستفيدين</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">مؤشرات الجودة</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">تقارير الأيتام</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">إحصائيات الإعلام</a></li>
+                    </ul>
                 </div>
+
+                <div class="relative menu-item">
+                    <button class="flex items-center gap-1 hover:text-gray-100 transition">
+						<span>الموارد البشرية</span>
+						<span class="text-lg">▾</span>
+					</button>
+                    <ul class="menu-dropdown absolute top-full mt-2 min-w-[220px] rounded-lg bg-white text-gray-700 shadow-lg overflow-hidden z-20">
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">الموظفون</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">الوظائف</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">المتطوعون</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">التدريب</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">الإعدادات</a></li>
+                    </ul>
+                </div>
+
+                <div class="relative menu-item">
+                    <button class="flex items-center gap-1 hover:text-gray-100 transition">
+						<span>الاستراتيجية والتميز المؤسسي</span>
+						<span class="text-lg">▾</span>
+					</button>
+                    <ul class="menu-dropdown absolute top-full mt-2 min-w-[230px] rounded-lg bg-white text-gray-700 shadow-lg overflow-hidden z-20">
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">أنشطة الإنجاز</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">التقييم الداخلي</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">التوثيق والنماذج</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">تميّز مؤسسي</a></li>
+                    </ul>
+                </div>
+
+                <div class="relative menu-item">
+                    <button class="flex items-center gap-1 hover:text-gray-100 transition">
+						<span>التسويق</span>
+						<span class="text-lg">▾</span>
+					</button>
+                    <ul class="menu-dropdown absolute top-full mt-2 min-w-[220px] rounded-lg bg-white text-gray-700 shadow-lg overflow-hidden z-20">
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">الخدمات المعتمدة</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">دليل الراعي</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">الإعدادات</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">الحج</a></li>
+                    </ul>
+                </div>
+
+                <a class="font-semibold hover:text-gray-100 transition" href="#">نادي تراوف (البنين - البنات)</a>
+                <a class="font-semibold hover:text-gray-100 transition" href="#">الرعاية الاجتماعية</a>
+                <a class="font-semibold hover:text-gray-100 transition" href="#">مركز عمليات المستفيدين</a>
+                <a class="font-semibold hover:text-gray-100 transition" href="#">الجمعية العمومية ومجلس الإدارة</a>
+            </nav>
+
+            <div class="flex items-center gap-3 text-white text-lg">
+                <button class="relative p-2 hover:bg-white/10 rounded-full">
+					<span class="material-icons">notifications</span>
+				</button>
+                <button class="relative p-2 hover:bg-white/10 rounded-full">
+					<span class="material-icons">chat_bubble</span>
+				</button>
+                <button class="bg-orange-500 hover:bg-orange-600 transition px-3 py-2 rounded-lg">خروج</button>
             </div>
         </div>
+    </header>
 
-        <div class="card mt-4">
-            <div class="card-body">
-                <div class="row cp-bg-form
+    <main class="max-w-[1400px] mx-auto px-4 lg:px-8 py-8">
+        <section class="bg-white rounded-3xl card-shadow p-6 lg:p-8">
+            <div class="grid lg:grid-cols-[1fr_280px] gap-6 lg:gap-10">
+                <div class="space-y-6">
+                    <div class="grid md:grid-cols-3 gap-5">
+                        <div class="rounded-2xl px-6 py-6 bg-[#f9d5c2] relative overflow-hidden">
+                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">📋</div>
+                            <p class="text-gray-900 text-xl font-bold mb-2">المهام الوظيفية</p>
+                            <button class="text-sm text-white bg-orange-500 hover:bg-orange-600 transition px-3 py-1.5 rounded-full">دخول</button>
+                        </div>
+
+                        <div class="rounded-2xl px-6 py-6 bg-[#d9f0f2] relative overflow-hidden">
+                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">🏖️</div>
+                            <p class="text-gray-900 text-xl font-bold mb-2">الإجازات</p>
+                            <button class="text-sm text-white bg-cyan-600 hover:bg-cyan-700 px-3 py-1.5 rounded-full">دخول</button>
+                        </div>
+
+                        <div class="rounded-2xl px-6 py-6 bg-[#dedaf9] relative overflow-hidden">
+                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">🗓️</div>
+                            <p class="text-gray-900 text-xl font-bold mb-2">الحضور والانصراف</p>
+                            <button class="text-sm text-white bg-violet-500 hover:bg-violet-600 px-3 py-1.5 rounded-full">دخول</button>
+                        </div>
+
+                        <div class="rounded-2xl px-6 py-6 bg-[#d9f0f2] relative overflow-hidden">
+                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">🧠</div>
+                            <p class="text-gray-900 text-xl font-bold mb-2">النمو المهني</p>
+                            <button class="text-sm text-white bg-teal-500 hover:bg-teal-600 px-3 py-1.5 rounded-full">دخول</button>
+                        </div>
+
+                        <div class="rounded-2xl px-6 py-6 bg-[#f9efc8] relative overflow-hidden">
+                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">💼</div>
+                            <p class="text-gray-900 text-xl font-bold mb-2">عقود عمل</p>
+                            <button class="text-sm text-white bg-amber-500 hover:bg-amber-600 px-3 py-1.5 rounded-full">دخول</button>
+                        </div>
+
+                        <div class="rounded-2xl px-6 py-6 bg-[#f9dac9] relative overflow-hidden">
+                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">📝</div>
+                            <p class="text-gray-900 text-xl font-bold mb-2">التقييمات</p>
+                            <button class="text-sm text-white bg-orange-400 hover:bg-orange-500 px-3 py-1.5 rounded-full">دخول</button>
+                        </div>
+
+                        <div class="rounded-2xl px-6 py-6 bg-[#cceec7] relative overflow-hidden">
+                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">👥</div>
+                            <p class="text-gray-900 text-xl font-bold mb-2">لائحة الموارد البشرية</p>
+                            <button class="text-sm text-white bg-green-500 hover:bg-green-600 px-3 py-1.5 rounded-full">دخول</button>
+                        </div>
+
+                        <div class="rounded-2xl px-6 py-6 bg-[#f4ccda] relative overflow-hidden">
+                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">⚙️</div>
+                            <p class="text-gray-900 text-xl font-bold mb-2">الأدلة والمنهجيات والعمليات</p>
+                            <button class="text-sm text-white bg-pink-500 hover:bg-pink-600 px-3 py-1.5 rounded-full">دخول</button>
+                        </div>
+
+                        <div class="rounded-2xl px-6 py-6 bg-[#d6edf1] relative overflow-hidden">
+                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">🌴</div>
+                            <p class="text-gray-900 text-xl font-bold mb-2">بنك الأفكار</p>
+                            <button class="text-sm text-white bg-cyan-500 hover:bg-cyan-600 px-3 py-1.5 rounded-full">دخول</button>
+                        </div>
+
+                        <div class="rounded-2xl px-6 py-6 bg-[#eaeed7] relative overflow-hidden md:col-span-3 lg:col-span-2">
+                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">📦</div>
+                            <p class="text-gray-900 text-xl font-bold mb-2">الطلبات</p>
+                            <button class="text-sm text-white bg-lime-500 hover:bg-lime-600 px-3 py-1.5 rounded-full">دخول</button>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="bg-gradient-to-b from-emerald-300 via-emerald-200 to-lime-200 rounded-3xl p-6 flex flex-col items-center text-center card-shadow">
+                    <img src="https://i.imgur.com/dM7Thhn.png" alt="صورة الموظف" class="w-28 h-28 rounded-full border-4 border-white shadow-md mb-4">
+                    <p class="text-gray-800 text-lg font-bold mb-2" اسم الموظف</p>
+                        <p class="text-emerald-700 font-semibold">أخصائي نظم وتقنية معلومات</p>
+                        <div class="mt-6 w-full bg-white/60 rounded-2xl p-4 text-sm text-gray-700">
+                            <p>اهلا وسهلا.</p>
+                        </div>
+                </aside>
+            </div>
+        </section>
+
+        <footer class="text-center text-sm text-gray-500 mt-10">
+            <span>TRAOF 2025 النسخة الرابعة</span>
+        </footer>
+    </main>
+
+</body>
+
+</html>
