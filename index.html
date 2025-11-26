@@ -1,220 +1,328 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+import React, { useEffect, useRef } from 'react';
+import * as d3 from 'd3';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة تراوف</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <style>
-        body {
-            font-family: 'Tajawal', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background-color: #f5f5f5;
-            direction: rtl;
+const SunburstChart = () => {
+  const svgRef = useRef();
+
+  useEffect(() => {
+    // Mock data similar to the original example
+    const data = {
+      name: "root",
+      children: [
+        {
+          name: "vis",
+          children: [
+            { name: "operator", value: 100 },
+            { name: "data", value: 80 },
+            { name: "controls", value: 60 },
+            { name: "legend", value: 40 },
+            { name: "axis", value: 30 },
+            { name: "events", value: 20 },
+            { name: "Visualization", value: 15 }
+          ]
+        },
+        {
+          name: "util",
+          children: [
+            { name: "Maths", value: 70 },
+            { name: "Strings", value: 60 },
+            { name: "Shapes", value: 50 },
+            { name: "Displays", value: 40 },
+            { name: "palette", value: 35 },
+            { name: "Geometry", value: 30 },
+            { name: "heap", value: 25 },
+            { name: "Colors", value: 20 },
+            { name: "Arrays", value: 15 },
+            { name: "math", value: 10 },
+            { name: "Dates", value: 8 },
+            { name: "Sort", value: 6 },
+            { name: "Stats", value: 5 },
+            { name: "Property", value: 4 }
+          ]
+        },
+        {
+          name: "animate",
+          children: [
+            { name: "interpolate", value: 90 },
+            { name: "Transitioner", value: 80 },
+            { name: "Easing", value: 70 },
+            { name: "Transition", value: 60 },
+            { name: "Tween", value: 50 },
+            { name: "FunctionSequence", value: 40 },
+            { name: "Scheduler", value: 35 },
+            { name: "Sequence", value: 30 },
+            { name: "Parallel", value: 25 },
+            { name: "methods", value: 20 }
+          ]
+        },
+        {
+          name: "query",
+          children: [
+            { name: "Query", value: 80 },
+            { name: "Comparison Expression", value: 70 }
+          ]
+        },
+        {
+          name: "analytics",
+          children: [
+            { name: "graph", value: 60 },
+            { name: "cluster", value: 50 },
+            { name: "optimization", value: 40 },
+            { name: "TimeScale", value: 35 },
+            { name: "QuantitativeScale", value: 30 }
+          ]
+        },
+        {
+          name: "data",
+          children: [
+            { name: "converters", value: 50 },
+            { name: "NBodyForce", value: 40 },
+            { name: "Simulation", value: 35 }
+          ]
+        },
+        {
+          name: "physics",
+          children: [
+            { name: "display", value: 40 },
+            { name: "TextSprite", value: 30 },
+            { name: "DirtSprite", value: 25 }
+          ]
         }
-        
-        .nav-gradient {
-            background: linear-gradient(90deg, #01a6a4 0%, #00b4a2 40%, #02a1d9 100%);
-        }
-        
-        .card-shadow {
-            box-shadow: 0 10px 18px rgba(0, 0, 0, 0.06);
-        }
-        
-        .menu-item:hover .menu-dropdown {
-            display: block;
-        }
-        
-        .menu-dropdown {
-            display: none;
-        }
-        
-        .menu-dropdown li {
-            border-bottom: 1px solid #eef2f7;
-        }
-        
-        .menu-dropdown li:last-child {
-            border-bottom: none;
-        }
-    </style>
-</head>
+      ]
+    };
 
-<body class="bg-[#f8f9fb] min-h-screen">
-    <header class="nav-gradient text-white shadow-lg">
-        <div class="max-w-[1400px] mx-auto flex items-center justify-between px-4 lg:px-8 py-3">
-            <nav class="flex items-center gap-6 text-sm">
-                <a class="font-semibold hover:text-gray-100 transition" href="#">الطلبات</a>
+    // Specify the chart’s dimensions.
+    const width = 800;
+    const height = width;
+    const radius = width / 6;
 
-                <div class="relative menu-item">
-                    <button class="flex items-center gap-1 hover:text-gray-100 transition">
-						<span>الدعم المؤسسي</span>
-						<span class="text-lg">▾</span>
-					</button>
-                    <ul class="menu-dropdown absolute top-full mt-2 min-w-[200px] rounded-lg bg-white text-gray-700 shadow-lg overflow-hidden z-20">
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">الأسر</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">البرامج</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">مركز المعرفة</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">تنظيم زيارات المشاريع</a></li>
-                    </ul>
-                </div>
+    // Create the color scale.
+    const color = d3.scaleOrdinal(
+      d3.quantize(d3.interpolateRainbow, data.children.length + 1)
+    );
 
-                <div class="relative menu-item">
-                    <button class="flex items-center gap-1 hover:text-gray-100 transition">
-						<span>التقارير</span>
-						<span class="text-lg">▾</span>
-					</button>
-                    <ul class="menu-dropdown absolute top-full mt-2 min-w-[220px] rounded-lg bg-white text-gray-700 shadow-lg overflow-hidden z-20">
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">التقارير الإدارية</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">تقارير المستفيدين</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">مؤشرات الجودة</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">تقارير الأيتام</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">إحصائيات الإعلام</a></li>
-                    </ul>
-                </div>
+    // Compute the layout.
+    const hierarchy = d3
+      .hierarchy(data)
+      .sum((d) => d.value)
+      .sort((a, b) => b.value - a.value);
 
-                <div class="relative menu-item">
-                    <button class="flex items-center gap-1 hover:text-gray-100 transition">
-						<span>الموارد البشرية</span>
-						<span class="text-lg">▾</span>
-					</button>
-                    <ul class="menu-dropdown absolute top-full mt-2 min-w-[220px] rounded-lg bg-white text-gray-700 shadow-lg overflow-hidden z-20">
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">الموظفون</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">الوظائف</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">المتطوعون</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">التدريب</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">الإعدادات</a></li>
-                    </ul>
-                </div>
+    const root = d3.partition().size([2 * Math.PI, hierarchy.height + 1])(
+      hierarchy
+    );
+    root.each((d) => (d.current = d));
 
-                <div class="relative menu-item">
-                    <button class="flex items-center gap-1 hover:text-gray-100 transition">
-						<span>الاستراتيجية والتميز المؤسسي</span>
-						<span class="text-lg">▾</span>
-					</button>
-                    <ul class="menu-dropdown absolute top-full mt-2 min-w-[230px] rounded-lg bg-white text-gray-700 shadow-lg overflow-hidden z-20">
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">أنشطة الإنجاز</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">التقييم الداخلي</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">التوثيق والنماذج</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">تميّز مؤسسي</a></li>
-                    </ul>
-                </div>
+    // Create the arc generator.
+    const arc = d3
+      .arc()
+      .startAngle((d) => d.x0)
+      .endAngle((d) => d.x1)
+      .padAngle((d) => Math.min((d.x1 - d.x0) / 2, 0.005))
+      .padRadius(radius * 1.5)
+      .innerRadius((d) => d.y0 * radius)
+      .outerRadius((d) => Math.max(d.y0 * radius, d.y1 * radius - 1));
 
-                <div class="relative menu-item">
-                    <button class="flex items-center gap-1 hover:text-gray-100 transition">
-						<span>التسويق</span>
-						<span class="text-lg">▾</span>
-					</button>
-                    <ul class="menu-dropdown absolute top-full mt-2 min-w-[220px] rounded-lg bg-white text-gray-700 shadow-lg overflow-hidden z-20">
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">الخدمات المعتمدة</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">دليل الراعي</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">الإعدادات</a></li>
-                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="#">الحج</a></li>
-                    </ul>
-                </div>
+    // Create the SVG container.
+    const svg = d3.select(svgRef.current)
+      .attr('viewBox', [-width / 2, -height / 2, width, width])
+      .style('font', '12.5px sans-serif')
+      .style('background', '#f8f9fa');
 
-                <a class="font-semibold hover:text-gray-100 transition" href="#">نادي تراوف (البنين - البنات)</a>
-                <a class="font-semibold hover:text-gray-100 transition" href="#">الرعاية الاجتماعية</a>
-                <a class="font-semibold hover:text-gray-100 transition" href="#">مركز عمليات المستفيدين</a>
-                <a class="font-semibold hover:text-gray-100 transition" href="#">الجمعية العمومية ومجلس الإدارة</a>
-            </nav>
+    // Clear previous content
+    svg.selectAll("*").remove();
 
-            <div class="flex items-center gap-3 text-white text-lg">
-                <button class="relative p-2 hover:bg-white/10 rounded-full">
-					<span class="material-icons">notifications</span>
-				</button>
-                <button class="relative p-2 hover:bg-white/10 rounded-full">
-					<span class="material-icons">chat_bubble</span>
-				</button>
-                <button class="bg-orange-500 hover:bg-orange-600 transition px-3 py-2 rounded-lg">خروج</button>
-            </div>
-        </div>
-    </header>
+    // Append the arcs.
+    const path = svg
+      .append('g')
+      .selectAll('path')
+      .data(root.descendants().slice(1))
+      .join('path')
+      .attr('fill', (d) => {
+        while (d.depth > 1) d = d.parent;
+        return color(d.data.name);
+      })
+      .attr('fill-opacity', (d) =>
+        arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0
+      )
+      .attr('pointer-events', (d) => (arcVisible(d.current) ? 'auto' : 'none'))
+      .attr('d', (d) => arc(d.current))
+      .on('click', clicked);
 
-    <main class="max-w-[1400px] mx-auto px-4 lg:px-8 py-8">
-        <section class="bg-white rounded-3xl card-shadow p-6 lg:p-8">
-            <div class="grid lg:grid-cols-[1fr_280px] gap-6 lg:gap-10">
-                <div class="space-y-6">
-                    <div class="grid md:grid-cols-3 gap-5">
-                        <div class="rounded-2xl px-6 py-6 bg-[#f9d5c2] relative overflow-hidden">
-                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">📋</div>
-                            <p class="text-gray-900 text-xl font-bold mb-2">المهام الوظيفية</p>
-                            <button class="text-sm text-white bg-orange-500 hover:bg-orange-600 transition px-3 py-1.5 rounded-full">دخول</button>
-                        </div>
+    // Make them clickable if they have children.
+    path
+      .filter((d) => d.children)
+      .style('cursor', 'pointer');
 
-                        <div class="rounded-2xl px-6 py-6 bg-[#d9f0f2] relative overflow-hidden">
-                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">🏖️</div>
-                            <p class="text-gray-900 text-xl font-bold mb-2">الإجازات</p>
-                            <button class="text-sm text-white bg-cyan-600 hover:bg-cyan-700 px-3 py-1.5 rounded-full">دخول</button>
-                        </div>
+    const format = d3.format(',d');
+    // Tooltip (box if you hover over a chart)
+    path.append('title').text(
+      (d) =>
+        `${d
+          .ancestors()
+          .map((d) => d.data.name)
+          .reverse()
+          .join('/')}\n${format(d.value)}`
+    );
 
-                        <div class="rounded-2xl px-6 py-6 bg-[#dedaf9] relative overflow-hidden">
-                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">🗓️</div>
-                            <p class="text-gray-900 text-xl font-bold mb-2">الحضور والانصراف</p>
-                            <button class="text-sm text-white bg-violet-500 hover:bg-violet-600 px-3 py-1.5 rounded-full">دخول</button>
-                        </div>
+    const label = svg
+      .append('g')
+      .attr('pointer-events', 'none')
+      .attr('text-anchor', 'middle')
+      .style('user-select', 'none')
+      .selectAll('text')
+      .data(root.descendants().slice(1))
+      .join('text')
+      .attr('dy', '0.35em')
+      .attr('fill-opacity', (d) => +labelVisible(d.current))
+      .attr('transform', (d) => labelTransform(d.current))
+      .text((d) => d.data.name);
 
-                        <div class="rounded-2xl px-6 py-6 bg-[#d9f0f2] relative overflow-hidden">
-                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">🧠</div>
-                            <p class="text-gray-900 text-xl font-bold mb-2">النمو المهني</p>
-                            <button class="text-sm text-white bg-teal-500 hover:bg-teal-600 px-3 py-1.5 rounded-full">دخول</button>
-                        </div>
+    const parent = svg
+      .append('g')
+      .datum({})
+      .attr('pointer-events', 'all')
+      .on('click', clicked);
 
-                        <div class="rounded-2xl px-6 py-6 bg-[#f9efc8] relative overflow-hidden">
-                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">💼</div>
-                            <p class="text-gray-900 text-xl font-bold mb-2">عقود عمل</p>
-                            <button class="text-sm text-white bg-amber-500 hover:bg-amber-600 px-3 py-1.5 rounded-full">دخول</button>
-                        </div>
+    const backIconSVGString = `<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><path opacity="1" fill="#1E3050" d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/></svg>`;
 
-                        <div class="rounded-2xl px-6 py-6 bg-[#f9dac9] relative overflow-hidden">
-                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">📝</div>
-                            <p class="text-gray-900 text-xl font-bold mb-2">التقييمات</p>
-                            <button class="text-sm text-white bg-orange-400 hover:bg-orange-500 px-3 py-1.5 rounded-full">دخول</button>
-                        </div>
+    const backIconWidth = 16;
+    const backIconHeight = 16;
 
-                        <div class="rounded-2xl px-6 py-6 bg-[#cceec7] relative overflow-hidden">
-                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">👥</div>
-                            <p class="text-gray-900 text-xl font-bold mb-2">لائحة الموارد البشرية</p>
-                            <button class="text-sm text-white bg-green-500 hover:bg-green-600 px-3 py-1.5 rounded-full">دخول</button>
-                        </div>
+    const backIcon = parent
+      .append('image')
+      .attr(
+        'xlink:href',
+        'data:image/svg+xml,' + encodeURIComponent(backIconSVGString)
+      )
+      .attr('width', backIconWidth)
+      .attr('height', backIconHeight)
+      .attr('x', -backIconWidth / 2)
+      .attr('y', -backIconHeight / 2)
+      .style('cursor', 'pointer');
 
-                        <div class="rounded-2xl px-6 py-6 bg-[#f4ccda] relative overflow-hidden">
-                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">⚙️</div>
-                            <p class="text-gray-900 text-xl font-bold mb-2">الأدلة والمنهجيات والعمليات</p>
-                            <button class="text-sm text-white bg-pink-500 hover:bg-pink-600 px-3 py-1.5 rounded-full">دخول</button>
-                        </div>
+    const backText = parent
+      .append('text')
+      .text('Back')
+      .attr('text-anchor', 'middle')
+      .attr('dy', backIconHeight / 2 + 10);
 
-                        <div class="rounded-2xl px-6 py-6 bg-[#d6edf1] relative overflow-hidden">
-                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">🌴</div>
-                            <p class="text-gray-900 text-xl font-bold mb-2">بنك الأفكار</p>
-                            <button class="text-sm text-white bg-cyan-500 hover:bg-cyan-600 px-3 py-1.5 rounded-full">دخول</button>
-                        </div>
+    hideBack();
+    parent.on('click', null);
 
-                        <div class="rounded-2xl px-6 py-6 bg-[#eaeed7] relative overflow-hidden md:col-span-3 lg:col-span-2">
-                            <div class="text-emerald-600 text-2xl absolute top-4 left-4">📦</div>
-                            <p class="text-gray-900 text-xl font-bold mb-2">الطلبات</p>
-                            <button class="text-sm text-white bg-lime-500 hover:bg-lime-600 px-3 py-1.5 rounded-full">دخول</button>
-                        </div>
-                    </div>
-                </div>
+    // Handle zoom on click.
+    function clicked(event, p) {
+      parent.datum(p.parent || root);
 
-                <aside class="bg-gradient-to-b from-emerald-300 via-emerald-200 to-lime-200 rounded-3xl p-6 flex flex-col items-center text-center card-shadow">
-                    <img src="https://i.imgur.com/dM7Thhn.png" alt="صورة الموظف" class="w-28 h-28 rounded-full border-4 border-white shadow-md mb-4">
-                    <p class="text-gray-800 text-lg font-bold mb-2" اسم الموظف</p>
-                        <p class="text-emerald-700 font-semibold">أخصائي نظم وتقنية معلومات</p>
-                        <div class="mt-6 w-full bg-white/60 rounded-2xl p-4 text-sm text-gray-700">
-                            <p>اهلا وسهلا.</p>
-                        </div>
-                </aside>
-            </div>
-        </section>
+      root.each(
+        (d) =>
+          (d.target = {
+            x0:
+              Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) *
+              2 *
+              Math.PI,
+            x1:
+              Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) *
+              2 *
+              Math.PI,
+            y0: Math.max(0, d.y0 - p.depth),
+            y1: Math.max(0, d.y1 - p.depth),
+          })
+      );
 
-        <footer class="text-center text-sm text-gray-500 mt-10">
-            <span>TRAOF 2025 النسخة الرابعة</span>
-        </footer>
-    </main>
+      const t = svg.transition().duration(750);
 
-</body>
+      // Transition the data on all arcs, even the ones that aren’t visible,
+      // so that if this transition is interrupted, entering arcs will start
+      // the next transition from the desired position.
+      path
+        .transition(t)
+        .tween('data', (d) => {
+          const i = d3.interpolate(d.current, d.target);
+          return (t) => (d.current = i(t));
+        })
+        .filter(function (d) {
+          return +this.getAttribute('fill-opacity') || arcVisible(d.target);
+        })
+        .attr('fill-opacity', (d) =>
+          arcVisible(d.target) ? (d.children ? 0.6 : 0.4) : 0
+        )
+        .attr('pointer-events', (d) => (arcVisible(d.target) ? 'auto' : 'none'))
+        .attrTween('d', (d) => () => arc(d.current));
 
-</html>
+      label
+        .filter(function (d) {
+          return +this.getAttribute('fill-opacity') || labelVisible(d.target);
+        })
+        .transition(t)
+        .attr('fill-opacity', (d) => +labelVisible(d.target))
+        .attrTween('transform', (d) => () => labelTransform(d.current));
+
+      if (p === root) {
+        hideBack();
+      } else {
+        showBack();
+      }
+    }
+
+    function hideBack() {
+      parent
+        .select('image')
+        .attr(
+          'xlink:href',
+          root.parent === null
+            ? ''
+            : 'data:image/svg+xml,' + encodeURIComponent(backIconSVGString)
+        );
+      parent.select('text').text(root.parent === null ? '' : 'Back');
+
+      parent.select('image').style('cursor', 'default');
+      parent.select('text').style('cursor', 'default');
+      parent.on('click', null);
+    }
+
+    function showBack() {
+      parent
+        .select('image')
+        .attr(
+          'xlink:href',
+          root.parent !== null
+            ? ''
+            : 'data:image/svg+xml,' + encodeURIComponent(backIconSVGString)
+        );
+      parent.select('text').text(root.parent !== null ? '' : 'Back');
+
+      parent.select('image').style('cursor', 'pointer');
+      parent.select('text').style('cursor', 'pointer');
+      parent.on('click', clicked);
+    }
+
+    function arcVisible(d) {
+      return d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0;
+    }
+
+    function labelVisible(d) {
+      return d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
+    }
+
+    function labelTransform(d) {
+      const x = (((d.x0 + d.x1) / 2) * 180) / Math.PI;
+      const y = ((d.y0 + d.y1) / 2) * radius;
+      return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
+    }
+
+  }, []);
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">Interactive Sunburst Chart</h1>
+      <div className="bg-white rounded-lg shadow-lg p-6">
+        <svg ref={svgRef} width="800" height="800"></svg>
+      </div>
+      <div className="mt-6 text-center text-sm text-gray-600">
+        Click on any segment to zoom in. Click on the center or "Back" button to zoom out.
+      </div>
+    </div>
+  );
+};
+
+export default SunburstChart;
